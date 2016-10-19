@@ -24,12 +24,12 @@ public class MainWindow {
 		System.out.println(source);
 		
 		System.out.println("Write a part of seqence");
-		double partSeq = in.nextDouble();
+		double partSeq = 1;//in.nextDouble();
 		
 		System.out.println("Write a begin symbol");
-		int startChar = in.nextInt();
+		int startChar = 1;//in.nextInt();
 		System.out.println("Write a count symbols");
-		int countChar = in.nextInt();
+		int countChar = source.length();//in.nextInt();
 		
 		System.out.println("Write a capacity");
 		int capacity = in.nextInt();
@@ -39,7 +39,9 @@ public class MainWindow {
 		System.out.println(list);
 		
 		BarGraph.show(list, capacity);
-		IncDec.show(list, capacity);
+		//IncDec.show(list, capacity);
+		//Series.sqToSeries(sq.partSq(partSeq, startChar-1, countChar, source), capacity);
+		ACFBit.test5(list, capacity);
 		
 		in.close();
 
