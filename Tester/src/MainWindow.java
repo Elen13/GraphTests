@@ -41,7 +41,10 @@ public class MainWindow {
 		BarGraph.show(list, capacity);
 		//IncDec.show(list, capacity);
 		//Series.sqToSeries(sq.partSq(partSeq, startChar-1, countChar, source), capacity);
-		ACFBit.test5(list, capacity);
+		ACF.bit(ACF.normViewBit(list, capacity));
+		ACF.bit(ACF.normViewChar(list, capacity));
+		
+		Distribution.test2(list);
 		
 		in.close();
 
