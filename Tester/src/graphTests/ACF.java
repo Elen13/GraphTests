@@ -18,7 +18,7 @@ public class ACF {
 	        bin = bin.concat(sb.toString());
 		}
 		
-		ArrayList<Integer> list = new ArrayList<>(); 
+		ArrayList<Integer> list = new ArrayList<Integer>(); 
 		for(int j = 0; j<bin.length(); j++){
 			list.add(Character.getNumericValue(bin.charAt(j)));
 		}

@@ -1,19 +1,50 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import graphTests.*;
+import javax.swing.*;
 
+import draw.*;
 
 public class MainWindow {
 
 	/**
 	 * @param args
+	 * @throws InterruptedException 
 	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args) throws FileNotFoundException {
+	
+	public static void main(String[] args) throws FileNotFoundException {//throws InterruptedException {//
 		// TODO Auto-generated method stub
 		//WorkWithFile.write("a","Where an I?");
+		
+		/*System.out.println("Hello World!");
+		DrawPicture fr = new DrawPicture();
+		fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fr.setLocationRelativeTo(null);
+		//fr.setLayout(new GridBagLayout());
+		
+		JButton b = new JButton("Run");	
+		JTextField text = new JTextField(10);
+		JLabel l = new JLabel("Test1"); 
+		JProgressBar pr = new JProgressBar();
+		JPanel pl1 = new JPanel();
+	
+		fr.setLayout(new FlowLayout());
+		
+		fr.add(b);
+		fr.add(text);
+	
+		fr.setVisible(true);*/
+		
+		
+		
+		
 		Seqence sq = new Seqence();
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		
@@ -34,17 +65,23 @@ public class MainWindow {
 		System.out.println("Write a capacity");
 		int capacity = in.nextInt();
 		
+		System.out.println("Write a series");
+		int series = capacity;//in.nextInt();
+		
 		System.out.println(sq.partSq(partSeq, startChar-1, countChar, source));
 		list = sq.binToDec(sq.partSq(partSeq, startChar-1, countChar, source), capacity);
 		System.out.println(list);
 		
 		BarGraph.show(list, capacity);
-		//IncDec.show(list, capacity);
+		//nuOKIncDec.show(list, capacity);
 		//Series.sqToSeries(sq.partSq(partSeq, startChar-1, countChar, source), capacity);
-		ACF.bit(ACF.normViewBit(list, capacity));
-		ACF.bit(ACF.normViewChar(list, capacity));
+		//OK ACF.bit(ACF.normViewBit(list, capacity));
+		//OK ACF.bit(ACF.normViewChar(list, capacity));
+		//OK Distribution.test2(list);
+		//OK Series.test3(list, capacity, series);
+		//OK SpectralTest.test6(list, capacity);
 		
-		Distribution.test2(list);
+		LinearComplexity.test7(list, capacity);
 		
 		in.close();
 
