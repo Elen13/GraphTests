@@ -1,35 +1,57 @@
 package draw;
 
+import graphTests.Distribution;
+
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.SystemColor;
-import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
-public class DrawPicture extends JFrame{
 
-	public DrawPicture(){
+public class DrawPicture extends JPanel{
+	
+	public void paintComponent(Graphics g){
+		super.paintComponents(g);
+		
+		g.setColor(Color.white);
+		g.fillRect(0, 0, getSize().width - 1, getSize().height - 1);
+		this.title(g);
+		Distribution.pictureForDistribution(g, getSize().width, getSize().height); 
+	}
+	
+	public void title(Graphics g){
+		String s = "Test";
+		Font font = new Font("TimesRoman", Font.BOLD, 16);
+		FontMetrics metrics = g.getFontMetrics(font);
+		int x = (getSize().width - metrics.stringWidth(s)) / 2;
+		int y = metrics.getHeight()+ metrics.getAscent();//((getSize().height - metrics.getHeight()) / 2) + metrics.getAscent();
+		g.setFont(font);
+		g.setColor(Color.black);
+		g.drawString(s, x, y);		
+	}
+	
+	/*public DrawPicture(){
 		setSize(300,300);
 		setTitle("Tester");
 		/*MyPanel panel = new MyPanel();
 		Container pane = getContentPane();
-		pane.add(panel);*/
-	}
+		pane.add(panel);
+	}*/
 }
 
-class MyPanel extends JPanel{
+
+/*class MyPanel extends JPanel{
 	
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
 		Graphics2D g2 = (Graphics2D) g;
-		/*g.drawString("Text", 55, 55);
+		g.drawString("Text", 55, 55);
 		Font f=new Font ("SansSerif", Font.ITALIC,20);
 		g2.setFont(f);
-		g2.drawString("new Text", 55, 77);*/
+		g2.drawString("new Text", 55, 77);
 		
 		double x1 = 11, y1 = 11, dx = 44, dy = 66;
 		
@@ -67,6 +89,6 @@ class MyPanel extends JPanel{
 		x1+= dx+15;
 		g.drawArc(x1, y1, dx, dy, 30, 300);
 		x1+= dx+15;
-		g.fillArc(x1, y1, dx, dy, 30, 250);*/
+		g.fillArc(x1, y1, dx, dy, 30, 250);
 	}
-}
+}*/

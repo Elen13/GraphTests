@@ -25,7 +25,7 @@ public class LinearComplexity {
 	    m = -1;
 	}
 	
-	public static ArrayList<Integer> test7(ArrayList<Integer> sq, int cap){
+	public static int[] test7(ArrayList<Integer> sq, int cap){
 		ArrayList<Integer> binSq = Series.sqToBin(sq, cap);
 		
 		System.out.println("Bin sq: "+ binSq+ "Size = "+binSq.size());
@@ -56,17 +56,8 @@ public class LinearComplexity {
 	        arrL[N] = L;
 	        N++;
 	    }
-
-	    for(int i = 0; i < arrL.length;i++){
-	    	//System.out.println("s["+i+"] = "+s[i]);
-	    	 System.out.println("L = "+ arrL[i]);
-	    }
-	    
-	    System.out.println("sizeS "+ s.length);
-	    System.out.println("sizeArr "+ arrL.length);
-	    //System.out.println("L = "+ L);
 	     
-		return binSq;
+		return arrL;
 	}
 	
 }

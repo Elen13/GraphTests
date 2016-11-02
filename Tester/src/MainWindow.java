@@ -77,14 +77,21 @@ public class MainWindow {
 		//Series.sqToSeries(sq.partSq(partSeq, startChar-1, countChar, source), capacity);
 		//OK ACF.bit(ACF.normViewBit(list, capacity));
 		//OK ACF.bit(ACF.normViewChar(list, capacity));
-		//OK Distribution.test2(list);
+		Distribution.test2(list);
 		//OK Series.test3(list, capacity, series);
 		//OK SpectralTest.test6(list, capacity);
-		
-		LinearComplexity.test7(list, capacity);
+		//OK LinearComplexity.test7(list, capacity);
 		
 		in.close();
 
+		
+		SwingUtilities.invokeLater(new Runnable(){	//сохранение картинки в png
+            public void run(){
+                new SavePicture();				
+            }
+        });
 	}
 
 }
+
+
