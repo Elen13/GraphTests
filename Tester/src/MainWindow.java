@@ -19,9 +19,15 @@ public class MainWindow {
 	 * @throws FileNotFoundException 
 	 */
 	
-	public static void main(String[] args) throws FileNotFoundException {//throws InterruptedException {//
+	public static void main(String[] args) {//throws FileNotFoundException {//throws InterruptedException {//
 		// TODO Auto-generated method stub
 		//WorkWithFile.write("a","Where an I?");
+		SwingUtilities.invokeLater(new Runnable(){
+            public void run(){
+                new MainMenu();			
+            }
+        });
+		
 		
 		/*System.out.println("Hello World!");
 		DrawPicture fr = new DrawPicture();
@@ -45,7 +51,7 @@ public class MainWindow {
 		
 		
 		
-		Seqence sq = new Seqence();
+		/*Seqence sq = new Seqence();
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		
 		System.out.println("Write a file name");
@@ -72,12 +78,12 @@ public class MainWindow {
 		list = sq.binToDec(sq.partSq(partSeq, startChar-1, countChar, source), capacity);
 		System.out.println(list);
 		
-		BarGraph.show(list, capacity);
+		//BarGraph.show(list, capacity);
 		//nuOKIncDec.show(list, capacity);
 		//Series.sqToSeries(sq.partSq(partSeq, startChar-1, countChar, source), capacity);
 		//OK ACF.bit(ACF.normViewBit(list, capacity));
 		//OK ACF.bit(ACF.normViewChar(list, capacity));
-		Distribution.test2(list);
+		//Distribution.test2(list);
 		//OK Series.test3(list, capacity, series);
 		//OK SpectralTest.test6(list, capacity);
 		//OK LinearComplexity.test7(list, capacity);
@@ -89,7 +95,7 @@ public class MainWindow {
             public void run(){
                 new SavePicture();				
             }
-        });
+        });*/
 	}
 
 }

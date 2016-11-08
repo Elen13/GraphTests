@@ -1,3 +1,5 @@
+package graphTests;
+
 import java.io.*;
 
 public class WorkWithFile {
@@ -29,7 +31,7 @@ public class WorkWithFile {
 			}
 		}
 		catch(IOException е) {
-			System.out.println("Oшибкa ввода-вывода: " + е);
+			System.out.println("Error input-output: " + е);
 		}
 		
 		return s;
