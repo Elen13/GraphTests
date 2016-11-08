@@ -18,18 +18,23 @@ public class MenuItemFile extends JPanel implements ActionListener{
 	private JButton openButton;
 	private JLabel lblFileName;
 	private String fileName;
+	private static String source;
 	int returnVal;
 	
-	public MenuItemFile(JPanel panel){
+	public MenuItemFile(){
 		fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new java.io.File("."));
 		openButton = new JButton("Open file");
 		lblFileName = new JLabel();
 		
-		panel.add(openButton);
-		panel.add(lblFileName);
+		add(openButton);
+		add(lblFileName);
 		
 		openButton.addActionListener(this);
+	}
+	
+	public static String getSeqence(){
+		return source;
 	}
 	
 	public void actionPerformed(ActionEvent e){
@@ -38,7 +43,6 @@ public class MenuItemFile extends JPanel implements ActionListener{
 			if(returnVal == JFileChooser.APPROVE_OPTION){
 				lblFileName.setText(fileChooser.getSelectedFile().toString());
 				fileName = fileChooser.getSelectedFile().toString();
-				String source;
 				try {
 					source = WorkWithFile.read(fileName);
 					System.out.println(source);

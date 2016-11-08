@@ -4,22 +4,22 @@ import java.util.*;
 
 
 public class Seqence {
-	String partSq(double part, int sChar, int cChar, String sq){
+	public static String partSq(double part, int sChar, int cChar, String sq){
 		
-		if(part > 1.1){ throw new Error("Part is > then seqence!");}
-		int endIndex = (int)(sq.length()*part);
+		//if(part > 1.1){ throw new Error("Part is > then seqence!");}
+		int endIndex = (int)(sq.length()*part/100);
 		
 		if(sChar > sq.length()){ throw new Error("Start char is too big");}
 		String partSq = sq.substring(sChar, endIndex);
 		
-		char[] chArray = partSq.toCharArray();
+		/*char[] chArray = partSq.toCharArray();
 		if(cChar > partSq.length()){ throw new Error("Count of chars is too big");}
-		partSq = String.copyValueOf(chArray, 0, cChar);
+		partSq = String.copyValueOf(chArray, 0, cChar);*/
 		
 		return partSq;
 	}
 	
-	ArrayList<Integer> binToDec(String sq, int cap){
+	public static ArrayList<Integer> binToDec(String sq, int cap){
 		ArrayList<Integer> arrDec = new ArrayList<Integer>();
 		int i = 0, res = 0;
 		
