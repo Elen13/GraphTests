@@ -32,7 +32,10 @@ public class MainMenuItemParameters extends JPanel implements ActionListener{
     private JSpinner startSymbSpinner;
     
     private JLabel bitDepthLabel;
-    private JSpinner bitDepthSpinner;
+    private static JSpinner bitDepthSpinner;
+    
+    private JLabel seriesLabel;
+    private static JSpinner seriesSpinner;
     
 	
 	public MainMenuItemParameters(){
@@ -74,7 +77,17 @@ public class MainMenuItemParameters extends JPanel implements ActionListener{
 		tf = ((JSpinner.DefaultEditor) bitDepthSpinner.getEditor()).getTextField();
 		tf.setEditable(false);
 		add(bitDepthSpinner, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER,
+				GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
+		
+		
+		seriesLabel = new JLabel("Chose series for Test3: ");
+		add(seriesLabel, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
 				GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+		seriesSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 4, 1));
+		tf = ((JSpinner.DefaultEditor) seriesSpinner.getEditor()).getTextField();
+		tf.setEditable(false);
+		add(seriesSpinner, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER,
+				GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
 		
 		
 		
@@ -93,6 +106,14 @@ public class MainMenuItemParameters extends JPanel implements ActionListener{
 	
 	public static ArrayList<Integer> getSeqence(){
 		return decSq;
+	}
+	
+	public static int getCap(){
+		return (int)bitDepthSpinner.getValue();
+	}
+	
+	public static int getSeries(){
+		return (int)seriesSpinner.getValue();
 	}
 
 }

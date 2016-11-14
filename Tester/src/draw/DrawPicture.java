@@ -7,32 +7,92 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 
 public class DrawPicture extends JPanel{
+	private static final long serialVersionUID = 5061568512500793878L;
+	private ArrayList<Integer> sq;
+	private int cap;
+	private int ser;
+	private int num;
 	
+	public void setParam(int number, ArrayList<Integer> seq, int bitDepth, int series){
+		sq = seq;
+		cap = bitDepth;
+		ser = series;
+		num = number;
+	}
+
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
 		
 		g.setColor(Color.white);
-		g.fillRect(0, 0, getSize().width - 1, getSize().height - 1);
-		this.title(g);
-		Distribution.pictureForDistribution(g, getSize().width, getSize().height); 
+		g.fillRect(0, 0, getSize().width, getSize().height);
+		title(g);
+		this.draw(g); 
 	}
 	
 	public void title(Graphics g){
-		String s = "Test";
+		String s = "Test"+num;
 		Font font = new Font("TimesRoman", Font.BOLD, 16);
 		FontMetrics metrics = g.getFontMetrics(font);
 		int x = (getSize().width - metrics.stringWidth(s)) / 2;
-		int y = metrics.getHeight()+ metrics.getAscent();//((getSize().height - metrics.getHeight()) / 2) + metrics.getAscent();
+		int y = metrics.getHeight();//smetrics.getAscent();//((getSize().height - metrics.getHeight()) / 2) + metrics.getAscent();
+		System.out.println("x: "+x+" Y: "+y);
 		g.setFont(font);
 		g.setColor(Color.black);
 		g.drawString(s, x, y);		
 	}
 	
+	
+	public void draw(Graphics g){
+		switch (num) {
+	    case 1:  {
+	    	g.setColor(Color.green);
+			g.drawRect(50, 50, 13, 13);
+	    	break;
+	    }
+	             
+	    case 2:  {
+			int [][] pointArr = Distribution.test2(sq);
+			int widthRec = 512;
+			int x = ( getSize().width - widthRec ) / 2;
+			int y = ( getSize().height - widthRec) / 2;
+			int width = 4;
+			int step = 1;
+			int xO = 0, yO = 0;
+
+			g.setColor(Color.black);
+			g.drawRect(x, y, widthRec, widthRec);
+			
+			for(int i = 0; i < sq.size()-1; i++){ 
+				xO = x + step * pointArr[i][0] - width/2;  
+				yO = y + widthRec - step * pointArr[i][1] - width/2; 
+				g.fillOval(xO, yO, width, width);
+			}
+	    	break;
+	    }
+	             
+	   /* case 3:  monthString = "Март";
+	             break;
+	    case 4:  monthString = "Апрель";
+	             break;
+	    case 5:  monthString = "Май";
+	             break;
+	    case 6:  monthString = "Июнь";
+	             break;
+	    case 7:  monthString = "Июль";
+	             break;
+	    case 8:  monthString = "Август";
+	             break;
+	    default: monthString = "Не знаем такого";
+	             break;*/
+		}
+		
+	}
 	/*public DrawPicture(){
 		setSize(300,300);
 		setTitle("Tester");

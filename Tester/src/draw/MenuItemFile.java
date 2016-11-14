@@ -2,6 +2,9 @@ package draw;
 
 import graphTests.WorkWithFile;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
@@ -27,8 +30,12 @@ public class MenuItemFile extends JPanel implements ActionListener{
 		openButton = new JButton("Open file");
 		lblFileName = new JLabel();
 		
-		add(openButton);
-		add(lblFileName);
+		setLayout(new GridBagLayout());
+		
+		add(openButton, new GridBagConstraints(0, GridBagConstraints.RELATIVE, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER,
+				GridBagConstraints.NONE, new Insets(7, 7, 7, 7), 0, 0));
+		add(lblFileName, new GridBagConstraints(0, GridBagConstraints.RELATIVE, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER,
+				GridBagConstraints.NONE, new Insets(7, 7, 7, 7), 0, 0));
 		
 		openButton.addActionListener(this);
 	}
