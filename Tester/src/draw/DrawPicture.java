@@ -1,7 +1,9 @@
 package draw;
 
 import graphTests.Distribution;
+import graphTests.LinearComplexity;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -41,12 +43,25 @@ public class DrawPicture extends JPanel{
 		FontMetrics metrics = g.getFontMetrics(font);
 		int x = (getSize().width - metrics.stringWidth(s)) / 2;
 		int y = metrics.getHeight();//smetrics.getAscent();//((getSize().height - metrics.getHeight()) / 2) + metrics.getAscent();
-		System.out.println("x: "+x+" Y: "+y);
 		g.setFont(font);
 		g.setColor(Color.black);
 		g.drawString(s, x, y);		
 	}
 	
+	public void axes (Graphics g){
+		Graphics2D g2 = (Graphics2D) g;   
+		g2.setStroke(new BasicStroke(2.0f));
+		g2.setColor(Color.black);
+		
+		int x1 = getSize().width * 1/8;
+		int y1 = getSize().height * 7/8;
+		int x2 = getSize().width - x1;
+		int y2 = getSize().height - y1;
+		
+		g2.drawLine(x1, y1, x2, y1);
+		g2.drawLine(x1, y1, x1, y2);
+		g2.setStroke(new BasicStroke());
+	}
 	
 	public void draw(Graphics g){
 		switch (num) {
@@ -58,20 +73,21 @@ public class DrawPicture extends JPanel{
 	             
 	    case 2:  {
 			int [][] pointArr = Distribution.test2(sq);
-			int widthRec = 512;
+			int widthRec = getSize().width - getSize().height * 1/2;
+			double elp = (double)Distribution.findMax(sq) / (double)(widthRec - 7);
 			int x = ( getSize().width - widthRec ) / 2;
 			int y = ( getSize().height - widthRec) / 2;
 			int width = 4;
 			int step = 1;
-			int xO = 0, yO = 0;
+			double xO = 0, yO = 0;
 
 			g.setColor(Color.black);
 			g.drawRect(x, y, widthRec, widthRec);
 			
 			for(int i = 0; i < sq.size()-1; i++){ 
-				xO = x + step * pointArr[i][0] - width/2;  
-				yO = y + widthRec - step * pointArr[i][1] - width/2; 
-				g.fillOval(xO, yO, width, width);
+				xO = x + step * pointArr[i][0] / elp - width/2;  
+				yO = y + widthRec - step * pointArr[i][1] / elp - width/2; 
+				g.fillOval((int)xO, (int)yO, width, width);
 			}
 	    	break;
 	    }
@@ -85,10 +101,31 @@ public class DrawPicture extends JPanel{
 	    case 6:  monthString = "Июнь";
 	             break;
 	    case 7:  monthString = "Июль";
-	             break;
-	    case 8:  monthString = "Август";
-	             break;
-	    default: monthString = "Не знаем такого";
+	             break;*/
+	    case 8:  {
+	    	int [] line = LinearComplexity.test7(sq, cap);
+	    	int [] xValues = new int [line.length];
+	    	int [] yValues = new int [line.length];
+	    	int wAxes = getSize().width*6/8;
+	    	int hAxis = getSize().height*6/8;
+	    	double xElp = (double)line.length / (double)wAxes;
+	    	double yElp = (double)line[line.length - 1] / (double)hAxis;
+	    	
+	    	System.out.println("xELP:"+xElp+ ", " + " yELP:"+yElp+ ", " + (double)line[line.length - 1] + " length:" + line.length);
+	    	for(int i = 0; i < line.length; i++){
+	    		xValues[i] = (int)((double)i / xElp) + getSize().width * 1/8;
+	    		yValues[i] = getSize().height * 7/8 - (int)((double)line[i] / yElp);
+	    		
+	    		System.out.println("NEW x:"+ xValues[i] + " y:" + yValues[i] +" xreal:"+i+" yreal:"+line[i]);
+	    	}
+	    	
+	    	axes(g);
+	    	g.drawPolyline( xValues, yValues, line.length);
+	    	
+	    	break;
+	    }
+	            
+	   /* default: monthString = "Не знаем такого";
 	             break;*/
 		}
 		

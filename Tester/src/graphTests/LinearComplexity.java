@@ -8,6 +8,15 @@ public class LinearComplexity {
 	private static int N;
 	private static int L;
 	private static int m;
+	
+	public static int findMax(int [] arr){
+		int max = 0;
+		for(int i = 0; i < arr.length; i++){
+			if(arr[i] > max)
+				max = arr[i];
+		}
+		return max;
+	}
 	 
 	public static void BerlekampRegistryTester(ArrayList<Integer> binSq)
 	{
@@ -27,8 +36,6 @@ public class LinearComplexity {
 	
 	public static int[] test7(ArrayList<Integer> sq, int cap){
 		ArrayList<Integer> binSq = Series.sqToBin(sq, cap);
-		
-		System.out.println("Bin sq: "+ binSq+ "Size = "+binSq.size());
 		
 		LinearComplexity.BerlekampRegistryTester(binSq);
 		
