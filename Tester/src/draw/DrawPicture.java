@@ -1,6 +1,8 @@
 package draw;
 
+import graphTests.BarGraph;
 import graphTests.Distribution;
+import graphTests.Seqence;
 import graphTests.LinearComplexity;
 
 import java.awt.BasicStroke;
@@ -66,15 +68,32 @@ public class DrawPicture extends JPanel{
 	public void draw(Graphics g){
 		switch (num) {
 	    case 1:  {
-	    	g.setColor(Color.green);
-			g.drawRect(50, 50, 13, 13);
+	    	ArrayList<Integer> data = BarGraph.test1(sq, cap);
+	    	int x = getSize().width * 1/8;
+			int y = getSize().height * 7/8;
+	    	int wAxes = getSize().width*6/8;
+	    	int hAxis = getSize().height*6/8;
+	    	int strip_w = wAxes / data.size();
+	    	int maxNum = BarGraph.getMax();
+	    	
+	    	g.setColor(Color.black);
+	    	axes(g);
+	    	
+	    	for(int i = 0; i < data.size(); i++){
+	    		int strip_h = data.get(i) * hAxis / maxNum;
+	    		g.setColor(Color.BLUE);
+	    		g.fillRect(x + i * strip_w, y - strip_h, strip_w, strip_h);
+	    		g.setColor(Color.black);
+	    		g.drawRect(x + i * strip_w, y - strip_h, strip_w, strip_h);
+	    	}
+	    	
 	    	break;
 	    }
 	             
 	    case 2:  {
 			int [][] pointArr = Distribution.test2(sq);
 			int widthRec = getSize().width - getSize().height * 1/2;
-			double elp = (double)Distribution.findMax(sq) / (double)(widthRec - 7);
+			double elp = (double)Seqence.findMax(sq) / (double)(widthRec - 7);
 			int x = ( getSize().width - widthRec ) / 2;
 			int y = ( getSize().height - widthRec) / 2;
 			int width = 4;
@@ -92,7 +111,8 @@ public class DrawPicture extends JPanel{
 	    	break;
 	    }
 	             
-	   /* case 3:  monthString = "Март";
+	    /*case 3:  g.setColor(Color.green);
+			g.drawRect(50, 50, 13, 13);
 	             break;
 	    case 4:  monthString = "Апрель";
 	             break;

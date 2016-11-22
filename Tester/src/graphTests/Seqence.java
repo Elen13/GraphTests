@@ -49,6 +49,14 @@ public class Seqence {
 	    return arrDec;
 	}
 
+	public static int findMax(ArrayList<Integer> sq){
+		int max = 0;
+		for(int i = 0; i < sq.size(); i++){
+			if(sq.get(i) > max)
+				max = sq.get(i);
+		}
+		return max;
+	}
 	
 	
 }
