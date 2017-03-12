@@ -16,12 +16,14 @@ import javax.swing.filechooser.FileFilter;
 
 import dialogs.WelcomePanel;
 import fileFilters.SequenceFileFilter;
+import sequence.BinFile;
 import sequence.SequenceFile;
 import sequence.SequenceFormatException;
 import sequence.SequenceFactory;
 import analysis.AnalysisRunner;
 import results.ResultsPanel;
-
+import modules.QCModule;
+import modules.ModuleFactory;
 
 /*++import uk.ac.babraham.FastQC.Analysis.AnalysisRunner;
 import uk.ac.babraham.FastQC.Analysis.OfflineRunner;
@@ -31,8 +33,8 @@ import uk.ac.babraham.FastQC.FileFilters.CasavaFastQFileFilter;
 import uk.ac.babraham.FastQC.FileFilters.FastQFileFilter;
 import uk.ac.babraham.FastQC.FileFilters.MappedBAMFileFilter;
 ++import uk.ac.babraham.FastQC.FileFilters.SequenceFileFilter;
-import uk.ac.babraham.FastQC.Modules.ModuleFactory;
-import uk.ac.babraham.FastQC.Modules.QCModule;
+++import uk.ac.babraham.FastQC.Modules.ModuleFactory;
+++import uk.ac.babraham.FastQC.Modules.QCModule;
 import uk.ac.babraham.FastQC.Report.HTMLReportArchive;
 ++import uk.ac.babraham.FastQC.Results.ResultsPanel;
 ++import uk.ac.babraham.FastQC.Sequence.SequenceFactory;
@@ -114,6 +116,16 @@ public class TesterApplication extends JFrame {
 		
 		File [] files = chooser.getSelectedFiles();
 		
+		/*for (int f=0; f<files.length; f++) {
+			File fileToProcess = files[f];
+			lastUsedDir = fileToProcess.getParentFile();
+			
+			SequenceFile sequenceFile;
+			sequenceFile = new BinFile(fileToProcess);
+			
+			JLabel l = new JLabel("sucsess)))");
+			fileTabs.addTab(sequenceFile.name(), l);
+		}*/
 		
 		File [][] fileGroups;		
 		fileGroups = new File [files.length][1];
@@ -144,16 +156,15 @@ public class TesterApplication extends JFrame {
 				continue;
 			}
 					
-			//AnalysisRunner runner = new AnalysisRunner(sequenceFile);
-			//ResultsPanel rp = new ResultsPanel(sequenceFile);
-			//runner.addAnalysisListener(rp);*/
-			JLabel l = new JLabel("sucsess)))сука читает тольк .fq");
-			fileTabs.addTab(sequenceFile.name(), l);
+			AnalysisRunner runner = new AnalysisRunner(sequenceFile);
+			ResultsPanel rp = new ResultsPanel(sequenceFile);
+			runner.addAnalysisListener(rp);
+			fileTabs.addTab(sequenceFile.name(), rp);
 			
-			/*
+			
 			QCModule [] module_list = ModuleFactory.getStandardModuleList();
 	
-			runner.startAnalysis(module_list);*/
+			runner.startAnalysis(module_list);
 		}
 	}
 
