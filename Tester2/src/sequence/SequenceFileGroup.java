@@ -71,4 +71,10 @@ public class SequenceFileGroup implements SequenceFile {
 		return sequenceFile.next();
 	}
 
+	@Override
+	public double getFileSize() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

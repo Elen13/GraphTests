@@ -22,9 +22,9 @@ public class AnalysisQueue implements Runnable, AnalysisListener{
 	
 	private AnalysisQueue () {
 		
-		if (FastQCConfig.getInstance().threads != null) {
+		/*if (FastQCConfig.getInstance().threads != null) {
 			availableSlots.set(FastQCConfig.getInstance().threads);			
-		}
+		}*/
 		
 		Thread t = new Thread(this);
 		t.start();

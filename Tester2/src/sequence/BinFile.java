@@ -9,18 +9,24 @@ public class BinFile implements SequenceFile {
 
 	private File file;
 	private String name;
-	private String seqence;
+	private Sequence newSequence = null;
+	//private String seqence;
+	private long fileSize = 0;
+	private FileInputStream fis;
 	
 	public BinFile(File file) {
 		this.file = file;
+		//System.out.println("file size " + fileSize);  в байтах
 		name = file.getName();
+		fileSize = file.length();
 		
-		try (DataInputStream datain = new DataInputStream(new FileInputStream(file))){
+		try (DataInputStream datain = new DataInputStream(fis = new FileInputStream(file))){
 
 			byte[] buffer = new byte[datain.available()];
 			datain.read(buffer, 0, datain.available());
-			seqence = toBinary(buffer);
-			System.out.println("arr: " + seqence);
+			//seqence = toBinary(buffer);
+			newSequence = new Sequence(this, toBinary(buffer));
+			//System.out.println("arr: " + seqence);
 		}
 		catch(IOException е) {
 			System.out.println("Error input-output: " + е);
@@ -31,6 +37,11 @@ public class BinFile implements SequenceFile {
 		return file;
 	}
 
+	public double getFileSize(){
+		double size = (double) file.length();//(double) (file.length()/(1024*1024));
+		return size;
+	}
+	
 	public String name() {
 		return name;
 	}
@@ -54,18 +65,23 @@ public class BinFile implements SequenceFile {
 	            throw new IllegalArgumentException();
 	    return toReturn;
 	}
+	
 	@Override
 	public boolean hasNext() {
-		// TODO Auto-generated method stub
-		return false;
+		return newSequence != null;
 	}
 
 	@Override
-	public Sequence next() throws SequenceFormatException {
-		// TODO Auto-generated method stub
-		return null;
+	public Sequence next() {
+		Sequence seq = newSequence;
+		readNext();
+		return seq;
 	}
 
+	private void readNext(){
+		newSequence = null;
+	}
+	
 	@Override
 	public boolean isColorspace() {
 		// TODO Auto-generated method stub
@@ -74,7 +90,14 @@ public class BinFile implements SequenceFile {
 
 	@Override
 	public int getPercentComplete() {
-		// TODO Auto-generated method stub
+		if (! hasNext()) return 100;
+		try {
+			int percent = (int) (((double)fis.getChannel().position()/ fileSize)*100);
+			return percent;
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 		return 0;
 	}
 

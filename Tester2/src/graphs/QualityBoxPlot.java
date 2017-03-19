@@ -26,6 +26,10 @@ import javax.swing.JPanel;
 
 public class QualityBoxPlot extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private double [] means;
 	private double [] medians;
 	private double [] lowest;

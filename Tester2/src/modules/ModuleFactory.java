@@ -6,9 +6,10 @@ public class ModuleFactory {
 		
 		QCModule [] module_list = new QCModule [] {
 				new BasicStats(),
-				new PerBaseSequenceContent(),
-				new NContent(),
-				new SequenceLengthDistribution(),
+				//new PerBaseSequenceContent(),
+				//new NContent(),
+				//new PerSequenceQualityScores(),
+				new BarGraph(),
 			};
 	
 		return (module_list);

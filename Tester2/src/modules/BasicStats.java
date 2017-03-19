@@ -1,22 +1,3 @@
-/**
- * Copyright Copyright 2010-15 Simon Andrews
- *
- *    This file is part of FastQC.
- *
- *    FastQC is free software; you can redistribute it and/or modify
- *    it under the terms of the GNU General Public License as published by
- *    the Free Software Foundation; either version 3 of the License, or
- *    (at your option) any later version.
- *
- *    FastQC is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
- *
- *    You should have received a copy of the GNU General Public License
- *    along with FastQC; if not, write to the Free Software
- *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
 package modules;
 
 import java.awt.BorderLayout;
@@ -32,26 +13,21 @@ import javax.xml.stream.XMLStreamException;
 
 import report.HTMLReportArchive;
 import sequence.Sequence;
-import sequence.QualityEncoding.PhredEncoding;
 
 public class BasicStats extends AbstractQCModule {
 
 	private String name = null;
 	private long actualCount = 0;
-	private long filteredCount = 0;
 	private int minLength = 0;
 	private int maxLength = 0;
-	private long gCount = 0;
-	private long cCount = 0;
-	private long aCount = 0;
-	private long tCount = 0;
+	private double fileLength = 0;
 	@SuppressWarnings("unused")
 	private long nCount = 0;
 	private char lowestChar = 126;
 	private String fileType = null;
 	
 	public String description() {
-		return "Calculates some basic statistics about the file";
+		return "Сбор общей статистики о последовательности";
 	}
 	
 	public boolean ignoreFilteredSequences() {
@@ -61,7 +37,7 @@ public class BasicStats extends AbstractQCModule {
 	public JPanel getResultsPanel() {
 		JPanel returnPanel = new JPanel();
 		returnPanel.setLayout(new BorderLayout());
-		returnPanel.add(new JLabel("Basic sequence stats",JLabel.CENTER),BorderLayout.NORTH);
+		returnPanel.add(new JLabel("Основная статистика последовательности",JLabel.CENTER),BorderLayout.NORTH);
 		
 		TableModel model = new ResultsTable();
 		returnPanel.add(new JScrollPane(new JTable(model)),BorderLayout.CENTER);
@@ -73,15 +49,12 @@ public class BasicStats extends AbstractQCModule {
 	public void reset () {
 		minLength = 0;
 		maxLength = 0;
-		gCount = 0;
-		cCount = 0;
-		aCount = 0;
-		tCount = 0;
 		nCount = 0;
+		fileLength = 0;
 	}
 
 	public String name() {
-		return "Basic Statistics";
+		return "Общая статистика";
 	}
 
 	public void processSequence(Sequence sequence) {
@@ -89,10 +62,10 @@ public class BasicStats extends AbstractQCModule {
 		if (name == null) name = sequence.file().name();
 		
 		// If this is a filtered sequence we simply count it and move on.
-		if (sequence.isFiltered()) {
+		/*if (sequence.isFiltered()) {
 			filteredCount++;
 			return;
-		}
+		}*/
 		
 		actualCount++;
 		
@@ -105,6 +78,7 @@ public class BasicStats extends AbstractQCModule {
 			}
 		}
 		
+		fileLength = sequence.getFileLength();
 		if (actualCount == 1) {
 			minLength = sequence.getSequence().length();
 			maxLength = sequence.getSequence().length();
@@ -117,20 +91,16 @@ public class BasicStats extends AbstractQCModule {
 		char [] chars = sequence.getSequence().toCharArray();
 		for (int c=0;c<chars.length;c++) {			
 			switch (chars[c]) {
-				case 'G': ++gCount;break;
-				case 'A': ++aCount;break;
-				case 'T': ++tCount;break;
-				case 'C': ++cCount;break;
 				case 'N': ++nCount;break;			
 			}
 		}
 		
-		chars = sequence.getQualityString().toCharArray();
+		/*chars = sequence.getQualityString().toCharArray();
 		for (int c=0;c<chars.length;c++) {
 			if (chars[c] < lowestChar) {
 				lowestChar = chars[c];
 			}
-		}
+		}*/
 	}
 	
 	public boolean raisesError() {
@@ -153,13 +123,13 @@ public class BasicStats extends AbstractQCModule {
 	private class ResultsTable extends AbstractTableModel {
 				
 		private String [] rowNames = new String [] {
-				"Filename",
-				"File type",
+				"Имя файла",
+				/*"File type",
 				"Encoding",
 				"Total Sequences",
-				"Sequences flagged as poor quality",
-				"Sequence length",
-				"%GC",
+				"Sequences flagged as poor quality",*/
+				"Длина последовательности",
+				//"%GC",
 		};		
 		
 		// Sequence - Count - Percentage
@@ -177,26 +147,27 @@ public class BasicStats extends AbstractQCModule {
 				case 1:
 					switch (rowIndex) {
 					case 0 : return name;
-					case 1 : return fileType;
+					/*case 1 : return fileType;
 					case 2 : return PhredEncoding.getFastQEncodingOffset(lowestChar);
 					case 3 : return ""+actualCount;
-					case 4 : return ""+filteredCount;
-					case 5 :
-						if (minLength == maxLength) {
+					case 4 : return ""+filteredCount;*/
+					case 1 :
+						return fileLength + "Б";
+						/*if (minLength == maxLength) {
 							return ""+minLength;
 						}
 						else {
 							return minLength+"-"+maxLength;
-						}
+						}*/
 						
 						
-					case 6 : 
+					/*case 6 : 
 						if (aCount+tCount+gCount+cCount > 0) {
 							return ""+(((gCount+cCount)*100)/(aCount+tCount+gCount+cCount));
 						}
 						else {
 							return 0;
-						}
+						}*/
 					
 					}
 			}
@@ -205,8 +176,8 @@ public class BasicStats extends AbstractQCModule {
 		
 		public String getColumnName (int columnIndex) {
 			switch (columnIndex) {
-				case 0: return "Measure";
-				case 1: return "Value";
+				case 0: return "Измерение";
+				case 1: return "Значение";
 			}
 			return null;
 		}

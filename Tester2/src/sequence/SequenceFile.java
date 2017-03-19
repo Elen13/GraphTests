@@ -10,4 +10,5 @@ public interface SequenceFile {
 	public int getPercentComplete();
 	public File getFile();
 	public String name();
+	public double getFileSize();
 }

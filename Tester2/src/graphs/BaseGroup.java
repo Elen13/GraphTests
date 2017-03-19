@@ -50,7 +50,7 @@ public class BaseGroup {
 
 	public static BaseGroup [] makeUngroupedGroups (int maxLength) {
 
-		int startingBase = 1;
+		int startingBase = 0;
 		int interval = 1;
 
 		Vector<BaseGroup> groups = new Vector<BaseGroup>();
@@ -178,7 +178,8 @@ public class BaseGroup {
 			else {
 				startingBase += interval;
 			}
-
+			System.out.println("startingBase: " + startingBase);
+			System.out.println("endBase: " + endBase);
 		}
 
 		return groups.toArray(new BaseGroup[0]);

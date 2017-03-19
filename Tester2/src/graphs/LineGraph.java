@@ -30,6 +30,10 @@ import javax.swing.JPanel;
 
 public class LineGraph extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String [] xTitles;
 	private String xLabel;
 	private String [] xCategories;

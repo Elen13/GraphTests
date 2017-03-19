@@ -66,7 +66,7 @@ public class AnalysisRunner implements Runnable {
 			}
 			
 			for (int m=0;m<modules.length;m++) {
-				if (seq.isFiltered() && modules[m].ignoreFilteredSequences()) continue;
+				//if (seq.isFiltered() && modules[m].ignoreFilteredSequences()) continue;
 				modules[m].processSequence(seq);											//считаем сами тесты
 			}
 			

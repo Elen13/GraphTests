@@ -25,10 +25,10 @@ public class ResultsPanel extends JPanel implements ListSelectionListener, Analy
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final ImageIcon ERROR_ICON = new ImageIcon(ClassLoader.getSystemResource("resources/error.png"));
+	/*private static final ImageIcon ERROR_ICON = new ImageIcon(ClassLoader.getSystemResource("resources/error.png"));
 	private static final ImageIcon WARNING_ICON = new ImageIcon(ClassLoader.getSystemResource("resources/warning.png"));
 	private static final ImageIcon OK_ICON = new ImageIcon(ClassLoader.getSystemResource("resources/tick.png"));
-
+*/
 	
 	private QCModule [] modules;
 	private JList<?> moduleList;
@@ -40,7 +40,7 @@ public class ResultsPanel extends JPanel implements ListSelectionListener, Analy
 	public ResultsPanel (SequenceFile sequenceFile) {
 		this.sequenceFile = sequenceFile;
 		setLayout(new BorderLayout());
-		progressLabel = new JLabel("Waiting to start...",JLabel.CENTER);
+		progressLabel = new JLabel("Ожидание...",JLabel.CENTER);
 		add(progressLabel,BorderLayout.CENTER);
 	}
 
@@ -74,15 +74,15 @@ public class ResultsPanel extends JPanel implements ListSelectionListener, Analy
 			}
 			
 			QCModule module = (QCModule)value;
-			ImageIcon icon = OK_ICON;
+			/*ImageIcon icon = OK_ICON;
 			if (module.raisesError()) {
 				icon = ERROR_ICON;
 			}
 			else if (module.raisesWarning()) {
 				icon = WARNING_ICON;
-			}
+			}*/
 
-			JLabel returnLabel = new JLabel(module.name(),icon,JLabel.LEFT);
+			JLabel returnLabel = new JLabel(module.name());//,icon,JLabel.LEFT);
 			returnLabel.setOpaque(true);
 			if (isSelected) {
 				returnLabel.setBackground(Color.LIGHT_GRAY);
@@ -143,7 +143,7 @@ public class ResultsPanel extends JPanel implements ListSelectionListener, Analy
 	}
 
 	public void analysisStarted(SequenceFile file) {
-		progressLabel.setText("Starting analysis...");		
+		progressLabel.setText("Начат анализ...");		
 	}
 	
 	

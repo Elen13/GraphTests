@@ -327,5 +327,10 @@ public class FastQFile implements SequenceFile {
 	public File getFile() {
 		return file;
 	}
+	
+	public double getFileSize(){
+		double size = (double) (file.length()/(1024*1024));
+		return size;
+	}
 
 }

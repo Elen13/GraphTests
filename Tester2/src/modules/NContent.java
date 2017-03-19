@@ -48,9 +48,9 @@ public class NContent extends AbstractQCModule {
 	}
 	
 	public boolean ignoreInReport () {
-		if (ModuleConfig.getParam("n_content", "ignore") > 0) {
+		/*if (ModuleConfig.getParam("n_content", "ignore") > 0) {
 			return true;
-		}
+		}*/
 		return false;
 	}
 	
@@ -120,20 +120,20 @@ public class NContent extends AbstractQCModule {
 	}
 
 	public String description() {
-		return "Shows the percentage of bases at each position which are not being called";
+		return "Показывает процент баз в каждой позиции, которые не вызывают";
 	}
 
 	public String name() {
-		return "Per base N content";
+		return "На снове базы данных N";
 	}
 
 	public boolean raisesError() {
 		if (!calculated) getPercentages();
-		for (int i=0;i<percentages.length;i++) {
+		/*for (int i=0;i<percentages.length;i++) {
 			if (percentages[i] > ModuleConfig.getParam("n_content", "error")) {
 				return true;
 			}
-		}
+		}*/
 		return false;
 	}
 
