@@ -21,6 +21,10 @@ public class Histogram extends JPanel {
 	private double minY;
 	private double maxY;
 	private double yInterval;
+	private boolean incDec = false;
+	
+	private float goodN = 0;
+	private int level = 0;
 
 	public Histogram (ArrayList<Integer> data, double minY, double maxY, int [] xCategories, String graphTitle) {
 		this(data,minY,maxY,new String[0],graphTitle);
@@ -38,6 +42,18 @@ public class Histogram extends JPanel {
 		this.xCategories = xCategories;
 		this.graphTitle = graphTitle;
 		this.yInterval = findOptimalYInterval(maxY);
+	}
+	
+	public Histogram (ArrayList<Integer> data, double minY, double maxY, float goodN, int level, String [] xCategories, String graphTitle, boolean ser) {
+		this.data = data;
+		this.minY = minY;
+		this.maxY = maxY;
+		this.xCategories = xCategories;
+		this.graphTitle = graphTitle;
+		this.yInterval = findOptimalYInterval(maxY);
+		this.goodN = goodN;
+		this.level = level;
+		this.incDec = ser;
 	}
 	
 	private double findOptimalYInterval(double max) {
@@ -75,7 +91,6 @@ public class Histogram extends JPanel {
 		
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
-		System.out.println("Main = Width: "+ getWidth()+" Height: " +getHeight());
 		g.setColor(Color.BLACK);
 		
 		double yStart;
@@ -126,21 +141,24 @@ public class Histogram extends JPanel {
 		
 		int lastXLabelEnd = 0;
 		
-		for (int i=0;i<data.size();i++) {
-			if (i%2 != 0) {
-				g.setColor(new Color(230, 230, 230));
-				g.fillRect(xOffset+(baseWidth*i), 40, baseWidth, getHeight()-80);
-			}
-			g.setColor(Color.BLACK);
-			String baseNumber = ""+xCategories[i];
-			int baseNumberWidth = g.getFontMetrics().stringWidth(baseNumber);
-			int baseNumberPosition =  (baseWidth/2)+xOffset+(baseWidth*i)-(baseNumberWidth/2);
-			
-			if (baseNumberPosition > lastXLabelEnd) {
-				g.drawString(baseNumber,baseNumberPosition, getHeight()-25);
-				lastXLabelEnd = baseNumberPosition+baseNumberWidth+5;
+		if(incDec == false){
+			for (int i=0;i<data.size();i++) {
+				if (i%2 != 0) {
+					g.setColor(new Color(230, 230, 230));
+					g.fillRect(xOffset+(baseWidth*i), 40, baseWidth, getHeight()-80);
+				}
+				g.setColor(Color.BLACK);
+				String baseNumber = ""+xCategories[i];
+				int baseNumberWidth = g.getFontMetrics().stringWidth(baseNumber);
+				int baseNumberPosition =  (baseWidth/2)+xOffset+(baseWidth*i)-(baseNumberWidth/2);
+				
+				if (baseNumberPosition > lastXLabelEnd) {
+					g.drawString(baseNumber,baseNumberPosition, getHeight()-25);
+					lastXLabelEnd = baseNumberPosition+baseNumberWidth+5;
+				}
 			}
 		}
+
 		
 		// Now draw horizontal lines across from the y axis
 
@@ -157,16 +175,43 @@ public class Histogram extends JPanel {
 			((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		}
 		
-		for(int d = 0; d < data.size(); d++){
-			int thisY = getY(data.get(d));
-    		g.setColor(Color.BLUE);
-    		g.fillRect(xOffset+(baseWidth*d),thisY+1, baseWidth-1,getHeight()-40-thisY);
-    		g.setColor(Color.black);
-    		g.drawRect(xOffset+(baseWidth*d),thisY, baseWidth-1,getHeight()-40-thisY);
-    	}
+		if(incDec == false){
+			
+			for(int d = 0; d < data.size(); d++){
+				int thisY = getY(data.get(d));
+	    		g.setColor(Color.BLUE);
+	    		g.fillRect(xOffset+(baseWidth*d),thisY+1, baseWidth-1,getHeight()-40-thisY);
+	    		g.setColor(Color.black);
+	    		g.drawRect(xOffset+(baseWidth*d),thisY, baseWidth-1,getHeight()-40-thisY);
+	    	}
+			
+			g.setColor(Color.RED);
+			g.drawLine(xOffset, getY(goodN), getWidth()-10,getY(goodN));
+			//g.setColor(Color.RED);
+			//g.drawLine(xOffset, getY(level), getWidth()-10,getY(level));
+		}
+		else{
+			for(int d = 0; d < data.size(); d++){
+				int thisY = getY(data.get(d));
+				if(d%2 == 0){
+					g.setColor(Color.BLUE);
+					if(baseWidth == 1)
+						g.fillRect(xOffset+(baseWidth*d),thisY-1, baseWidth,getHeight()-40-thisY);
+					else
+						g.fillRect(xOffset+1+(baseWidth*d),thisY-1, baseWidth-1,getHeight()-40-thisY);
+				}
+				else{
+					g.setColor(Color.GREEN);
+					if(baseWidth == 1)
+						g.fillRect(xOffset+(baseWidth*d),thisY-1, baseWidth,getHeight()-40-thisY);
+					else
+						g.fillRect(xOffset+1+(baseWidth*d),thisY-1, baseWidth-1,getHeight()-40-thisY);
+				}
+	    	}
+		}
 		
 		// Now draw the data legend
-
+		g.setColor(Color.black);
 		if (g instanceof Graphics2D) {
 			((Graphics2D)g).setStroke(new BasicStroke(1));
 			((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);

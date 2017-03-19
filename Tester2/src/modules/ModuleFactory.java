@@ -10,6 +10,8 @@ public class ModuleFactory {
 				//new NContent(),
 				//new PerSequenceQualityScores(),
 				new BarGraph(),
+				new Series(),
+				new IncDec(),
 			};
 	
 		return (module_list);

@@ -16,9 +16,11 @@ public class BarGraph extends AbstractQCModule {
 
 	public int max = 0;
 	public ArrayList<Integer> data;
-	public boolean calculated = false;
-	public double [] percentages = new double[70];
-	public String [] xCategories = new String[0];;
+	public String [] xCategories = new String[0];
+	
+	private float goodN = 0;
+	private int D = 0;
+	private int level = 0;
 	
 	public int getMaxY(){
 		int max = 0;
@@ -29,6 +31,17 @@ public class BarGraph extends AbstractQCModule {
 		}
 		
 		return max;
+	}
+	
+	public int getMinY(){
+		int min = getMaxY();
+		
+		for(int i = 0; i < data.size(); i++){
+			if(data.get(i) < min)
+				min = data.get(i);
+		}
+		
+		return min;
 	}
 	
 	public int findMax(ArrayList<Integer> sq){
@@ -59,7 +72,23 @@ public class BarGraph extends AbstractQCModule {
 		for (int i=0;i<groups.length;i++) {
 			xCategories[i] = groups[i].toString();
 		}
-		System.out.println("BarGraph xCategories: " + groups[0]);
+		
+		int sizeSq = sq.size();
+		int maxD = 0;
+		int minD = 0;
+		goodN = sizeSq / (float)Math.pow(2, 3);
+		maxD = Math.round(sizeSq - goodN);
+		
+		if(sizeSq % 3 == 0){
+			minD = 0;
+		}
+		else{
+			minD = 1;
+		}
+		D = maxD - minD;
+		level = (int)goodN + 57;
+		//System.out.println("Size: "+sizeSq+" D: "+ D+" goodN: " + goodN);
+		
 	}
 
 	public static ArrayList<Integer> binToDec(String sq, int cap){
@@ -95,7 +124,7 @@ public class BarGraph extends AbstractQCModule {
 	@Override
 	public JPanel getResultsPanel() {
 		//if (!calculated) getPercentages();
-		return new Histogram(data, 0d, getMaxY() + 1, xCategories, "Гистограмма распределения элементов последовательности");
+		return new Histogram(data, 0d, getMaxY() + 1, goodN, level, xCategories, "Гистограмма распределения элементов последовательности", false);
 	}
 
 	public String name() {
@@ -107,8 +136,11 @@ public class BarGraph extends AbstractQCModule {
 	}
 
 	public void reset() {
-		max = new Integer(0);
+		max = 0;
 		data = new ArrayList<Integer>();
+		goodN = 0;
+		D = 0;
+		level = 0;
 	}
 
 	public boolean raisesError() {

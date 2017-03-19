@@ -34,6 +34,8 @@ public class BaseGroup {
 
 	private int lowerCount;
 	private int upperCount;
+	private String upperCountS;
+	private String lowerCountS;
 
 	public static BaseGroup [] makeBaseGroups (int maxLength) {
 
@@ -47,7 +49,7 @@ public class BaseGroup {
 			return(makeLinearBaseGroups(maxLength));
 		}
 	}
-
+	
 	public static BaseGroup [] makeUngroupedGroups (int maxLength) {
 
 		int startingBase = 0;
@@ -178,8 +180,6 @@ public class BaseGroup {
 			else {
 				startingBase += interval;
 			}
-			System.out.println("startingBase: " + startingBase);
-			System.out.println("endBase: " + endBase);
 		}
 
 		return groups.toArray(new BaseGroup[0]);
@@ -198,6 +198,11 @@ public class BaseGroup {
 		this.upperCount = upperCount;
 	}
 
+	public BaseGroup(String lowerCountS, String upperCountS) {
+		this.lowerCountS = lowerCountS;
+		this.upperCountS = upperCountS;
+	}
+
 	public int lowerCount () {
 		return lowerCount;
 	}
@@ -209,7 +214,7 @@ public class BaseGroup {
 	public boolean containsValue (int value) {
 		return value>=lowerCount && value<=upperCount;
 	}
-
+	
 	public String toString () {
 		if (lowerCount == upperCount) {
 			return ""+lowerCount;
