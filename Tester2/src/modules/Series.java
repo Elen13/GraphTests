@@ -99,7 +99,7 @@ public class Series extends AbstractQCModule{
 	}
 
 	public JPanel getResultsPanel() {
-		return new Histogram(data, 0d, getMax() + 1, goodN, level, xCategories, "Проверка серий", false);
+		return new Histogram(data, 0d, getMax() + 1, goodN, level, xCategories, "Проверка серий", 0);
 	}
 
 	public String name() {

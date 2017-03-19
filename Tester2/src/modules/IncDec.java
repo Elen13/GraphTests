@@ -171,7 +171,7 @@ public class IncDec extends AbstractQCModule{
 	}
 
 	public JPanel getResultsPanel() {
-		return new Histogram(data, 0d, getMax() + 1, goodN, level, xCategories, "Проверка на монотонность", true);
+		return new Histogram(data, 0d, getMax() + 1, goodN, level, xCategories, "Проверка на монотонность", 1); //test = 1
 	}
 
 	public String name() {

@@ -16,12 +16,12 @@ public class Histogram extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String [] xCategories;
-	private ArrayList<Integer> data;
+	private ArrayList<?> data;
 	private String graphTitle;
 	private double minY;
 	private double maxY;
 	private double yInterval;
-	private boolean incDec = false;
+	private int test = 0;
 	
 	private float goodN = 0;
 	private int level = 0;
@@ -44,7 +44,7 @@ public class Histogram extends JPanel {
 		this.yInterval = findOptimalYInterval(maxY);
 	}
 	
-	public Histogram (ArrayList<Integer> data, double minY, double maxY, float goodN, int level, String [] xCategories, String graphTitle, boolean ser) {
+	public Histogram (ArrayList<?> data, double minY, double maxY, float goodN, int level, String [] xCategories, String graphTitle, int test) {
 		this.data = data;
 		this.minY = minY;
 		this.maxY = maxY;
@@ -53,7 +53,7 @@ public class Histogram extends JPanel {
 		this.yInterval = findOptimalYInterval(maxY);
 		this.goodN = goodN;
 		this.level = level;
-		this.incDec = ser;
+		this.test = test;
 	}
 	
 	private double findOptimalYInterval(double max) {
@@ -141,7 +141,7 @@ public class Histogram extends JPanel {
 		
 		int lastXLabelEnd = 0;
 		
-		if(incDec == false){
+		if(test == 0){
 			for (int i=0;i<data.size();i++) {
 				if (i%2 != 0) {
 					g.setColor(new Color(230, 230, 230));
@@ -170,15 +170,15 @@ public class Histogram extends JPanel {
 		
 		// Now draw the datasets
 		
-		if (g instanceof Graphics2D) {
+		/*if (g instanceof Graphics2D) {
 			((Graphics2D)g).setStroke(new BasicStroke(2));
 			((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		}
+		}		//размывание линий*/
 		
-		if(incDec == false){
+		if(test == 0){
 			
 			for(int d = 0; d < data.size(); d++){
-				int thisY = getY(data.get(d));
+				int thisY = getY((Double)data.get(d));
 	    		g.setColor(Color.BLUE);
 	    		g.fillRect(xOffset+(baseWidth*d),thisY+1, baseWidth-1,getHeight()-40-thisY);
 	    		g.setColor(Color.black);
@@ -190,9 +190,9 @@ public class Histogram extends JPanel {
 			//g.setColor(Color.RED);
 			//g.drawLine(xOffset, getY(level), getWidth()-10,getY(level));
 		}
-		else{
+		else if(test == 1){
 			for(int d = 0; d < data.size(); d++){
-				int thisY = getY(data.get(d));
+				int thisY = getY((Double)data.get(d));
 				if(d%2 == 0){
 					g.setColor(Color.BLUE);
 					if(baseWidth == 1)
@@ -207,6 +207,15 @@ public class Histogram extends JPanel {
 					else
 						g.fillRect(xOffset+1+(baseWidth*d),thisY-1, baseWidth-1,getHeight()-40-thisY);
 				}
+	    	}
+		}
+		else{
+			for(int d = 0; d < data.size(); d++){
+				int thisY = getY((Double) data.get(d));
+	    		g.setColor(Color.BLUE);
+	    		g.fillRect(xOffset+(baseWidth*d),thisY+1, baseWidth-1,getHeight()-40-thisY);
+	    		g.setColor(Color.black);
+	    		g.drawRect(xOffset+(baseWidth*d),thisY, baseWidth-1,getHeight()-40-thisY);
 	    	}
 		}
 		

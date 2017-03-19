@@ -124,7 +124,7 @@ public class BarGraph extends AbstractQCModule {
 	@Override
 	public JPanel getResultsPanel() {
 		//if (!calculated) getPercentages();
-		return new Histogram(data, 0d, getMaxY() + 1, goodN, level, xCategories, "Гистограмма распределения элементов последовательности", false);
+		return new Histogram(data, 0d, getMaxY() + 1, goodN, level, xCategories, "Гистограмма распределения элементов последовательности", 0);
 	}
 
 	public String name() {

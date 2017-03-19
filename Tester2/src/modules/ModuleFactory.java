@@ -12,6 +12,7 @@ public class ModuleFactory {
 				new BarGraph(),
 				new Series(),
 				new IncDec(),
+				new Spectral(),
 			};
 	
 		return (module_list);
