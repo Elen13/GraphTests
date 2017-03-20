@@ -52,8 +52,6 @@ public class Spectral extends AbstractQCModule{
 		double Re = 0, Im = 0;
 		ArrayList<Double> res = new ArrayList<Double>(normSq.size() / 2);
 		
-		System.out.println("Size sq: " + normSq.size());
-		
 		for(int i = 0; i < normSq.size() / 2; i++){
 			for(int k = 1; k <= normSq.size() / 2; k++){
 				Re += normSq.get(k-1) * Math.cos(2*pi*(i+1)*(k-1)/10);

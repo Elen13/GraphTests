@@ -81,9 +81,7 @@ public class LineGraph extends JPanel {
 		
 			base *=10;
 			
-		}
-		
-		
+		}	
 		
 	}
 	

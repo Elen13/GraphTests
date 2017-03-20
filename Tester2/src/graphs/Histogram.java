@@ -89,6 +89,7 @@ public class Histogram extends JPanel {
 	public void paint (Graphics g) {
 		super.paint(g);
 		
+		
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Color.BLACK);
@@ -163,7 +164,7 @@ public class Histogram extends JPanel {
 		// Now draw horizontal lines across from the y axis
 
 		g.setColor(new Color(180,180,180));
-		for (double i=yStart+1;i<=maxY;i+=yInterval) {
+		for (double i=yStart+yInterval;i<=maxY;i+=yInterval) {
 			g.drawLine(xOffset, getY(i), getWidth()-10, getY(i));
 		}
 		g.setColor(Color.BLACK);
@@ -178,7 +179,7 @@ public class Histogram extends JPanel {
 		if(test == 0){
 			
 			for(int d = 0; d < data.size(); d++){
-				int thisY = getY((Double)data.get(d));
+				int thisY = getY((Integer) data.get(d));
 	    		g.setColor(Color.BLUE);
 	    		g.fillRect(xOffset+(baseWidth*d),thisY+1, baseWidth-1,getHeight()-40-thisY);
 	    		g.setColor(Color.black);
@@ -192,7 +193,7 @@ public class Histogram extends JPanel {
 		}
 		else if(test == 1){
 			for(int d = 0; d < data.size(); d++){
-				int thisY = getY((Double)data.get(d));
+				int thisY = getY((Integer) data.get(d));
 				if(d%2 == 0){
 					g.setColor(Color.BLUE);
 					if(baseWidth == 1)
@@ -226,6 +227,10 @@ public class Histogram extends JPanel {
 			((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 		}
 		
+	}
+
+	private int getY(int y) {
+		return (getHeight()-40) - (int)(((getHeight()-80)/(maxY-minY))*y);
 	}
 
 	private int getY(double y) {
