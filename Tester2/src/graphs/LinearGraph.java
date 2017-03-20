@@ -21,8 +21,6 @@ public class LinearGraph extends JPanel {
 	private double maxY;
 	private double yInterval;
 	
-	private static final Color [] COLOURS = new Color[] {new Color(220,0,0), new Color(0,0,220), new Color(0,220,0), Color.DARK_GRAY, Color.MAGENTA, Color.ORANGE,Color.YELLOW,Color.CYAN,Color.PINK,Color.LIGHT_GRAY};
-	
 	public LinearGraph (int [] data, double minY, double maxY, String graphTitle) {
 		this.data = data;
 		this.minY = minY;
@@ -191,7 +189,7 @@ public class LinearGraph extends JPanel {
 		
 		
 	}
-
+	
 	private int getY(double y) {
 		return (getHeight()-40) - (int)(((getHeight()-80)/(maxY-minY))*y);
 	}

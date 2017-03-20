@@ -12,9 +12,10 @@ public class ModuleFactory {
 				new BarGraph(),
 				new Distribution(),
 				new Series(),
-				//new IncDec(),
-				//new Spectral(),
-				//new LinearComplexity(),
+				new IncDec(),
+				new ACF(),
+				new Spectral(),
+				new LinearComplexity(),
 			};
 	
 		return (module_list);

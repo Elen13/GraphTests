@@ -69,12 +69,14 @@ public class DistributionPlot extends JPanel {
 			yStart = yInterval * (((int)minY/yInterval)+1);
 		}
 		
-		for (double i=yStart;i<=maxY;i+=yInterval) {
-			String label = ""+i;
-			label = label.replaceAll(".0$", ""); // Don't leave trailing .0s where we don't need them.
-
-			g.drawString(label, 2, getY((int)i)+(g.getFontMetrics().getAscent()/2));
-			g.drawString(label, getY((int)i)+(g.getFontMetrics().getAscent()/2), getHeight()-5);
+		for (double i=yStart,j=maxY;i<=maxY;i+=yInterval,j-=yInterval) {
+			String labelY = ""+i;
+			labelY = labelY.replaceAll(".0$", ""); // Don't leave trailing .0s where we don't need them.
+			String labelX = ""+j;
+			labelX = labelX.replaceAll(".0$", "");
+			
+			g.drawString(labelY, 2, getY((int)i)+(g.getFontMetrics().getAscent()/2));
+			g.drawString(labelX, getY((int)i)+(g.getFontMetrics().getAscent()/2), getHeight()-g.getFontMetrics().getAscent());
 		}
 		
 		// Draw the graph title
@@ -96,8 +98,8 @@ public class DistributionPlot extends JPanel {
 		int width = 7;//getHeight()-40-getY(1);  
 		
 		for (int d=0;d<data.length;d++) {
-			int x = getX(data[d][0]) - width/2;
-			int y = getY(data[d][1]) - width/2;
+			int x = getX(data[d][0]) - width/2 + 25;
+			int y = getY(data[d][1]) - width/2 - 25;
 			g.fillOval(x, y, width, width);
 		}
 		
