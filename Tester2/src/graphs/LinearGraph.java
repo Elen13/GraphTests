@@ -155,7 +155,7 @@ public class LinearGraph extends JPanel {
 
 		for(int i = 0; i < data.length; i++){
 			thisY = getY(data[i]);
-    		xValues[i] = xOffset+(baseWidth*i);
+    		xValues[i] = xOffset+(baseWidth*getX(i));
     		yValues[i] = thisY;    		
     	}
 		
@@ -188,6 +188,11 @@ public class LinearGraph extends JPanel {
 
 		
 		
+	}
+	
+	private int getX(int x) {
+		int a = (int) ((getWidth()-15)/(data.length)*x);
+		return a;
 	}
 	
 	private int getY(double y) {

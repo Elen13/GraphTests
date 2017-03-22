@@ -44,7 +44,7 @@ public class BarGraph extends AbstractQCModule {
 		return min;
 	}
 	
-	public int findMax(ArrayList<Integer> sq){
+	public static int findMax(ArrayList<Integer> sq){
 		int max = 0;
 		for(int i = 0; i < sq.size(); i++){
 			if(sq.get(i) > max)
@@ -54,7 +54,8 @@ public class BarGraph extends AbstractQCModule {
 	}
 	
 	public void processSequence(Sequence sequence) {
-		ArrayList<Integer> sq = binToDec(sequence.getSequence(), 3);
+		int cap = 8;
+		ArrayList<Integer> sq = binToDec(sequence.getSequence(), cap);
 		//System.out.println("BarGraph Hello!");
 		max = findMax(sq) + 1;
 		ArrayList<Integer> res = new ArrayList<Integer>(max);
@@ -76,7 +77,7 @@ public class BarGraph extends AbstractQCModule {
 		int sizeSq = sq.size();
 		int maxD = 0;
 		int minD = 0;
-		goodN = sizeSq / (float)Math.pow(2, 3);
+		goodN = sizeSq / (float)Math.pow(2, cap);
 		maxD = Math.round(sizeSq - goodN);
 		
 		if(sizeSq % 3 == 0){
@@ -87,7 +88,7 @@ public class BarGraph extends AbstractQCModule {
 		}
 		D = maxD - minD;
 		level = (int)goodN + 57;
-		//System.out.println("Size: "+sizeSq+" D: "+ D+" goodN: " + goodN);
+		//System.out.println("Size: "+sizeSq+" D: "+ D+" goodN: " + goodN+ "Max: "+ findMax(sq));
 		
 	}
 

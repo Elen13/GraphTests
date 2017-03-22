@@ -18,7 +18,7 @@ public class Distribution extends AbstractQCModule{
 
 	public void processSequence(Sequence sequence) {
 		
-		int cap = 3;
+		int cap = 8;
 		ArrayList<Integer> sq = BarGraph.binToDec(sequence.getSequence(), cap);
 		int [][] coordinates = new int [sq.size()-1][2];
 		int n = 1;
@@ -32,6 +32,7 @@ public class Distribution extends AbstractQCModule{
 		}
 		data = coordinates.clone();
 		fieldSize = (int)Math.pow(2, cap);
+		//System.out.println("Distr Max: "+ BarGraph.findMax(sq));
 	}
 
 	public JPanel getResultsPanel() {

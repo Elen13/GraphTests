@@ -76,7 +76,7 @@ public class DistributionPlot extends JPanel {
 			labelX = labelX.replaceAll(".0$", "");
 			
 			g.drawString(labelY, 2, getY((int)i)+(g.getFontMetrics().getAscent()/2));
-			g.drawString(labelX, getY((int)i)+(g.getFontMetrics().getAscent()/2), getHeight()-g.getFontMetrics().getAscent());
+			g.drawString(labelY, getX((int)i)+(g.getFontMetrics().getAscent()/2), getHeight()-g.getFontMetrics().getAscent());
 		}
 		
 		// Draw the graph title
@@ -85,7 +85,7 @@ public class DistributionPlot extends JPanel {
 		
 
 		// Now draw the field
-		g.drawRect(xOffset, 40, getHeight()-80, getHeight()-80);
+		g.drawRect(xOffset, 40, getWidth()-100, getHeight()-80);
 		
 		// Now draw the datasets
 		
@@ -98,8 +98,8 @@ public class DistributionPlot extends JPanel {
 		int width = 7;//getHeight()-40-getY(1);  
 		
 		for (int d=0;d<data.length;d++) {
-			int x = getX(data[d][0]) - width/2 + 25;
-			int y = getY(data[d][1]) - width/2 - 25;
+			int x = getX(data[d][0]) - width/2;
+			int y = getY(data[d][1]) - width/2;
 			g.fillOval(x, y, width, width);
 		}
 		
@@ -115,7 +115,8 @@ public class DistributionPlot extends JPanel {
 	}
 	
 	private int getX(int x) {
-		return (xOffset + (int)((getHeight()-80)/(maxY-minY))*x);
+		int a = xOffset + (int) ((int)(getWidth()-100)/(maxY-minY)*x);
+		return a;
 	}
 	
 	private int getY(int y) {

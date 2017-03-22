@@ -11,10 +11,10 @@ public class ModuleFactory {
 				//new PerSequenceQualityScores(),
 				new BarGraph(),
 				new Distribution(),
-				new Series(),
+				/*new Series(),
 				new IncDec(),
 				new ACF(),
-				new Spectral(),
+				new Spectral(),*/
 				new LinearComplexity(),
 			};
 	

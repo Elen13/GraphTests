@@ -149,14 +149,14 @@ public class Histogram extends JPanel {
 					g.fillRect(xOffset+(baseWidth*i), 40, baseWidth, getHeight()-80);
 				}
 				g.setColor(Color.BLACK);
-				String baseNumber = ""+xCategories[i];
+				/*String baseNumber = ""+xCategories[i];
 				int baseNumberWidth = g.getFontMetrics().stringWidth(baseNumber);
 				int baseNumberPosition =  (baseWidth/2)+xOffset+(baseWidth*i)-(baseNumberWidth/2);
 				
 				if (baseNumberPosition > lastXLabelEnd) {
 					g.drawString(baseNumber,baseNumberPosition, getHeight()-25);
 					lastXLabelEnd = baseNumberPosition+baseNumberWidth+5;
-				}
+				}*/
 			}
 		}
 
@@ -181,9 +181,9 @@ public class Histogram extends JPanel {
 			for(int d = 0; d < data.size(); d++){
 				int thisY = getY((Integer) data.get(d));
 	    		g.setColor(Color.BLUE);
-	    		g.fillRect(xOffset+(baseWidth*d),thisY+1, baseWidth-1,getHeight()-40-thisY);
+	    		g.fillRect(xOffset+(baseWidth*d),thisY+1, baseWidth,getHeight()-40-thisY);
 	    		g.setColor(Color.black);
-	    		g.drawRect(xOffset+(baseWidth*d),thisY, baseWidth-1,getHeight()-40-thisY);
+	    		g.drawRect(xOffset+(baseWidth*d),thisY, baseWidth,getHeight()-40-thisY);
 	    	}
 			
 			g.setColor(Color.RED);
@@ -214,9 +214,9 @@ public class Histogram extends JPanel {
 			for(int d = 0; d < data.size(); d++){
 				int thisY = getY((Double) data.get(d));
 	    		g.setColor(Color.BLUE);
-	    		g.fillRect(xOffset+(baseWidth*d),thisY+1, baseWidth-1,getHeight()-40-thisY);
+	    		g.fillRect(xOffset+(baseWidth*d),thisY+1, baseWidth,getHeight()-40-thisY);
 	    		g.setColor(Color.black);
-	    		g.drawRect(xOffset+(baseWidth*d),thisY, baseWidth-1,getHeight()-40-thisY);
+	    		g.drawRect(xOffset+(baseWidth*d),thisY, baseWidth,getHeight()-40-thisY);
 	    	}
 		}
 		

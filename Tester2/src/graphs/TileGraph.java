@@ -33,6 +33,10 @@ import utilities.HotColdColourGradient;
 
 public class TileGraph extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String [] xLabels;
 	private int [] tiles;
 	private double [][]tileBaseMeans;

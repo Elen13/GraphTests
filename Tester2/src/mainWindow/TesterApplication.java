@@ -1,6 +1,7 @@
 package mainWindow;
 
 import java.awt.BorderLayout;
+import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
@@ -20,6 +21,7 @@ import sequence.BinFile;
 import sequence.SequenceFile;
 import sequence.SequenceFormatException;
 import sequence.SequenceFactory;
+import sequence.Settings;
 import analysis.AnalysisRunner;
 import results.ResultsPanel;
 import modules.QCModule;
@@ -97,6 +99,14 @@ public class TesterApplication extends JFrame {
 		chooser.setFileFilter(sff);*/
 		int result = chooser.showOpenDialog(this);
 		if (result == JFileChooser.CANCEL_OPTION) return;
+		else if(result == JFileChooser.APPROVE_OPTION){
+			JFrame setWindow = new JFrame();
+			Settings set = new Settings();
+			setWindow.setSize(400, 300);
+			setWindow.setLocationRelativeTo(null);
+			setWindow.add(set);
+			setWindow.setVisible(true);
+		}
 
 		
 		// If we're still showing the welcome panel switch this out for the file tabs panel
@@ -144,12 +154,11 @@ public class TesterApplication extends JFrame {
 				JOptionPane.showMessageDialog(this, "Couldn't read file:"+e.getLocalizedMessage(), "Error reading file", JOptionPane.ERROR_MESSAGE);
 				continue;
 			}*/
-				
+			
 			AnalysisRunner runner = new AnalysisRunner(sequenceFile);
 			ResultsPanel rp = new ResultsPanel(sequenceFile);
 			runner.addAnalysisListener(rp);
 			fileTabs.addTab(sequenceFile.name(), rp);
-			
 			
 			QCModule [] module_list = ModuleFactory.getStandardModuleList();
 	
