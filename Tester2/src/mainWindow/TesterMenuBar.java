@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 import dialogs.AboutDialog;
-//import uk.ac.babraham.FastQC.Help.HelpDialog;
+import help.HelpDialog;
 
 public class TesterMenuBar extends JMenuBar implements ActionListener {
 
@@ -116,12 +116,14 @@ public class TesterMenuBar extends JMenuBar implements ActionListener {
 			application.closeAll();
 		}
 		else if (command.equals("help_contents")) {
-			/*try {
-				new HelpDialog(application,new File(URLDecoder.decode(ClassLoader.getSystemResource("Help").getFile(),"UTF-8")));
+			try {
+				//String path = URLDecoder.decode(ClassLoader.getSystemResource("help").getFile());
+				//System.out.println("Path to file: "+ path);
+				new HelpDialog(application,new File(URLDecoder.decode(ClassLoader.getSystemResource("help").getFile(),"UTF-8")));
 			} 
 			catch (UnsupportedEncodingException e1) {
 				e1.printStackTrace();
-			}*/
+			}
 		}
 		else if (command.equals("about")) {
 			new AboutDialog(application);
