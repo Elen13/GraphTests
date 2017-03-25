@@ -24,6 +24,7 @@ public class Settings extends JPanel implements ActionListener{
 	private int cap;
 	private int ser;
 	private int num;
+	private static boolean SET = false;
 	
 	private JLabel paramLabel;
 	private JTextField tf;
@@ -104,6 +105,7 @@ public class Settings extends JPanel implements ActionListener{
 		if(e.getSource() == setButton){
 			//decSq = Seqence.binToDec(Seqence.partSq((int)percentSpinner.getValue(), (int)startSymbSpinner.getValue(),
 				//						MenuItemFile.getSeqence().length(), MenuItemFile.getSeqence()), (int)bitDepthSpinner.getValue());
+			SET = true;
 			System.out.println("Set");
 		}
 	}
@@ -114,5 +116,9 @@ public class Settings extends JPanel implements ActionListener{
 	
 	public int getSeries(){
 		return (int)seriesSpinner.getValue();
+	}
+	
+	public static boolean getSetOption(){
+		return SET;
 	}
 }

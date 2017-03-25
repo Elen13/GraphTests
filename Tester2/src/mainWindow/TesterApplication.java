@@ -106,7 +106,13 @@ public class TesterApplication extends JFrame {
 			setWindow.setLocationRelativeTo(null);
 			setWindow.add(set);
 			setWindow.setVisible(true);
+			if(Settings.getSetOption() == true){
+				setWindow.dispose();
+				System.out.println("true");
+			}
+			else 				System.out.println("false");
 		}
+		
 
 		
 		// If we're still showing the welcome panel switch this out for the file tabs panel

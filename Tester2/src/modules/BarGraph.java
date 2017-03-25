@@ -80,15 +80,15 @@ public class BarGraph extends AbstractQCModule {
 		goodN = sizeSq / (float)Math.pow(2, cap);
 		maxD = Math.round(sizeSq - goodN);
 		
-		if(sizeSq % 3 == 0){
+		if(sizeSq % cap == 0){
 			minD = 0;
 		}
 		else{
 			minD = 1;
 		}
 		D = maxD - minD;
-		level = (int)goodN + 57;
-		//System.out.println("Size: "+sizeSq+" D: "+ D+" goodN: " + goodN+ "Max: "+ findMax(sq));
+		level = maxD;
+		System.out.println("Size: "+sizeSq+" Dmax: "+ maxD+" goodN: " + goodN+ " Max: "+ findMax(sq));
 		
 	}
 

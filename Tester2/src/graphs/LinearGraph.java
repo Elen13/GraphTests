@@ -6,8 +6,16 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.geom.AffineTransform;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+
 
 public class LinearGraph extends JPanel {
 
@@ -20,6 +28,12 @@ public class LinearGraph extends JPanel {
 	private double minY;
 	private double maxY;
 	private double yInterval;
+	private int bufOffset;
+	
+	private TranslateHandler translater;
+	private static double translateX;
+    private static double translateY;
+    private static double scale;
 	
 	public LinearGraph (int [] data, double minY, double maxY, String graphTitle) {
 		this.data = data;
@@ -27,6 +41,17 @@ public class LinearGraph extends JPanel {
 		this.maxY = maxY;
 		this.graphTitle = graphTitle;
 		this.yInterval = findOptimalYInterval(maxY);
+		
+		this.translater = new TranslateHandler(this);
+		this.addMouseListener(translater);
+		this.addMouseMotionListener(translater);
+		this.addMouseWheelListener(new ScaleHandler(this));
+		
+		translateX = 0;
+        translateY = 0;
+        scale = 0.5;
+        setOpaque(true);
+        setDoubleBuffered(true);
 	}
 	
 	private double findOptimalYInterval(double max) {
@@ -60,9 +85,130 @@ public class LinearGraph extends JPanel {
 	}
 	
 	public void paint (Graphics g) {
-		super.paint(g);
+		//super.paint(g);
 		
-		g.setColor(Color.WHITE);
+		/*AffineTransform tx = new AffineTransform();
+            tx.translate(translateX, translateY);
+            tx.scale(scale, scale);
+            Graphics2D ourGraphics = (Graphics2D) g;
+            ourGraphics.setColor(Color.WHITE);
+            ourGraphics.fillRect(0, 0, getWidth(), getHeight());
+            
+            
+            ourGraphics.setColor(Color.RED);
+            ourGraphics.drawString("Game Test", 10, 20);
+            
+            
+            ourGraphics.setTransform(tx);
+            ourGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+            ourGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                    RenderingHints.VALUE_TEXT_ANTIALIAS_ON);            
+            ourGraphics.setColor(Color.BLACK);
+            ourGraphics.drawRect(50, 50, 50, 50);
+            ourGraphics.fillOval(100, 100, 100, 100);
+            ourGraphics.fillOval(300, 300, 100, 100);
+            ourGraphics.drawString("Test Affine Transform", 50, 30);
+            // super.paint(g);*/
+		AffineTransform tx = new AffineTransform();
+        tx.translate(translateX, translateY);
+        tx.scale(scale, scale);
+        Graphics2D ourGraphics = (Graphics2D) g;
+        ourGraphics.setColor(Color.WHITE);
+        ourGraphics.fillRect(0, 0, getWidth(), getHeight());
+       
+        
+        ourGraphics.setTransform(tx);
+        ourGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        ourGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);            
+        ourGraphics.setColor(Color.BLACK);
+        
+		double yStart;
+		
+		if (minY % yInterval == 0) {
+			yStart = minY;
+		}
+		else {
+			yStart = yInterval * (((int)minY/yInterval)+1);
+		}
+		
+		int xOffset = 0;
+		
+		for (double i=yStart;i<=maxY;i+=yInterval) {
+			String label = ""+i;
+			label = label.replaceAll(".0$", ""); // Don't leave trailing .0s where we don't need them.
+			int width = ourGraphics.getFontMetrics().stringWidth(label);
+			if (width > xOffset) {
+				xOffset = width;
+			}
+			
+			ourGraphics.drawString(label, 2, getY(i)+(g.getFontMetrics().getAscent()/2));			
+		}
+	
+		// Give the x axis a bit of breathing space
+		xOffset += 5;
+		bufOffset = xOffset;            
+   
+       
+		// Draw the graph title
+		int titleWidth = ourGraphics.getFontMetrics().stringWidth(graphTitle);
+		ourGraphics.drawString(graphTitle, (xOffset + ((getWidth()-(xOffset+10))/2)) - (titleWidth/2), 30);
+				
+		//int baseWidth = 7;
+		
+		// Now draw the axes
+		ourGraphics.drawLine(xOffset, getHeight()-40, getWidth()-10, getHeight()-40);
+		ourGraphics.drawLine(xOffset, getHeight()-40, xOffset, 40);
+				
+				
+		// Now draw the data points
+		int baseWidth = (getWidth()-(xOffset+10))/data.length;
+		if (baseWidth<1) baseWidth=1;
+		
+		for (int i=0;i<data.length;i++) {
+			if (i%2 != 0) {
+				ourGraphics.setColor(new Color(230, 230, 230));
+				ourGraphics.fillRect(xOffset+(baseWidth*i), 40, baseWidth, getHeight()-80-1);
+			}
+			ourGraphics.setColor(Color.BLACK);
+		}
+		
+		// Now draw horizontal lines across from the y axis
+
+		ourGraphics.setColor(new Color(180,180,180));
+		for (double i=yStart+yInterval;i<=maxY;i+=yInterval) {
+			ourGraphics.drawLine(xOffset, getY(i), getWidth()-10, getY(i));
+		}
+		ourGraphics.setColor(Color.BLACK);
+		
+		
+		//draw data set
+		ourGraphics.setStroke(new BasicStroke(2));
+		
+		ourGraphics.setColor(Color.BLACK);
+		int [] xValues = new int [data.length];
+    	int [] yValues = new int [data.length];
+    	int thisY = 0;
+    	
+		for(int i = 0; i < data.length; i++){
+			thisY = getY(data[i]);
+    		xValues[i] = xOffset+(getX(i));
+    		yValues[i] = thisY;    		
+    	}
+		
+		ourGraphics.drawPolyline( xValues, yValues, data.length);
+		
+		// Now draw the data legend
+
+		ourGraphics.setStroke(new BasicStroke(1));
+			
+		ourGraphics.setColor(Color.RED);
+		ourGraphics.drawLine(xOffset, getHeight()-40, xOffset+getX(data.length), getY(maxY));
+		ourGraphics.setColor(Color.BLACK);
+		
+		/*g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Color.BLACK);
 		
@@ -90,6 +236,7 @@ public class LinearGraph extends JPanel {
 	
 		// Give the x axis a bit of breathing space
 		xOffset += 5;
+		bufOffset = xOffset;
 		
 		// Draw the graph title
 		int titleWidth = g.getFontMetrics().stringWidth(graphTitle);
@@ -134,13 +281,20 @@ public class LinearGraph extends JPanel {
 			((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		}
 		
+		/*System.out.println("Data size: "+ data.length);
+		int x = (int)(((getWidth()-xOffset-10)/((double)data.length))*data.length);
+		g.setColor(Color.YELLOW);
+		g.drawLine(xOffset, getHeight()-40, xOffset+x, getY(maxY));
+		System.out.println("X: "+ getWidth());*/
+		
+		/*sg.setColor(Color.BLACK);
 		int [] xValues = new int [data.length];
     	int [] yValues = new int [data.length];
     	int thisY = 0;
     	
 		for(int i = 0; i < data.length; i++){
 			thisY = getY(data[i]);
-    		xValues[i] = xOffset+(baseWidth*i);
+    		xValues[i] = xOffset+(getX(i));
     		yValues[i] = thisY;    		
     	}
 		
@@ -152,15 +306,9 @@ public class LinearGraph extends JPanel {
 			((Graphics2D)g).setStroke(new BasicStroke(1));
 			((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 		}
-
-		for(int i = 0; i < data.length; i++){
-			thisY = getY(data[i]);
-    		xValues[i] = xOffset+(baseWidth*getX(i));
-    		yValues[i] = thisY;    		
-    	}
 		
 		g.setColor(Color.RED);
-		g.drawLine(xOffset, getHeight()-40, xOffset+(baseWidth*data.length), getY(data.length/2));
+		g.drawLine(xOffset, getHeight()-40, xOffset+getX(data.length), getY(maxY));
 		g.setColor(Color.BLACK);
 		
 		// First we need to find the widest label
@@ -191,12 +339,80 @@ public class LinearGraph extends JPanel {
 	}
 	
 	private int getX(int x) {
-		int a = (int) ((getWidth()-15)/(data.length)*x);
+		int a = (int) (((getWidth()-bufOffset-10)/((double)data.length))*x);
 		return a;
 	}
+	
+	/*private int getX(int x) {
+		int a = (int) (((data.length/2*7-bufOffset)/((double)data.length))*x);
+		return a;
+	}*/
 	
 	private int getY(double y) {
 		return (getHeight()-40) - (int)(((getHeight()-80)/(maxY-minY))*y);
 	}
 	
+	private static class TranslateHandler implements MouseListener, MouseMotionListener {
+		private int lastOffsetX;
+		private int lastOffsetY;
+		private LinearGraph canvas;
+		 
+	    public TranslateHandler(LinearGraph canvas){
+	    	this.canvas = canvas;
+	    }
+		
+		public void mousePressed(MouseEvent e) {
+		    // capture starting point
+		    lastOffsetX = e.getX();
+		    lastOffsetY = e.getY();
+		}
+		
+		public void mouseDragged(MouseEvent e) {
+		    
+		    // new x and y are defined by current mouse location subtracted
+		    // by previously processed mouse location
+		    int newX = e.getX() - lastOffsetX;
+		    int newY = e.getY() - lastOffsetY;
+		
+		    // increment last offset to last processed by drag event.
+		    lastOffsetX += newX;
+		    lastOffsetY += newY;
+		
+		    // update the canvas locations
+		    canvas.translateX += newX;
+		    canvas.translateY += newY;
+		    
+		    // schedule a repaint.
+		    canvas.repaint();
+		    
+		}
+		
+		public void mouseClicked(MouseEvent e) { System.out.println("Mouse clicked!"); }
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+		public void mouseMoved(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {}
+	}
+	
+	private static class ScaleHandler implements MouseWheelListener {
+    	
+    	private LinearGraph canvas;
+    	
+    	public ScaleHandler(LinearGraph canvas){
+    		this.canvas = canvas;
+    	}
+    	
+        public void mouseWheelMoved(MouseWheelEvent e) {
+            if(e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
+                
+                // make it a reasonable amount of zoom
+                // .1 gives a nice slow transition
+                canvas.scale += (.1 * e.getWheelRotation());
+                // don't cross negative threshold.
+                // also, setting scale to 0 has bad effects
+                canvas.scale = Math.max(0.00001, canvas.scale); 
+                canvas.repaint();
+            }
+        }
+    }
 }

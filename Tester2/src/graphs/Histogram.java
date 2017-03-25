@@ -188,8 +188,8 @@ public class Histogram extends JPanel {
 			
 			g.setColor(Color.RED);
 			g.drawLine(xOffset, getY(goodN), getWidth()-10,getY(goodN));
-			//g.setColor(Color.RED);
-			//g.drawLine(xOffset, getY(level), getWidth()-10,getY(level));
+			g.setColor(Color.GREEN);
+			g.drawLine(xOffset, getY(level), getWidth()-10,getY(level));
 		}
 		else if(test == 1){
 			for(int d = 0; d < data.size(); d++){
